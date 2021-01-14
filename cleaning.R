@@ -6,17 +6,18 @@ library(lubridate)
 library(caret)
 library(ggplot2)
 
-
+utrecht$ori.ntatie[utrecht$ori.ntatie == "Zuid"] <- 0
+utrecht$ori.ntatie[utrecht$ori.ntatie == "Oost"] <- -90
+utrecht$ori.ntatie[utrecht$ori.ntatie == "West"] <- 90
+utrecht$ori.ntatie[utrecht$ori.ntatie == "Zuid-oost"] <- -45
+utrecht$ori.ntatie[utrecht$ori.ntatie == "Zuid-west"] <- 45
+utrecht$ori.ntatie <- as.integer(utrecht$ori.ntatie)
 
 total_joule <- data.frame(Year=integer(),
                     joule=integer()) 
 
 
-for (i in 0:19) {
-  year = i + 2000
-  row <- cbind(year, sum(bilt_joule[which(year(bilt_joule[,2])==year),3]))
-  total_joule <- rbind(total_joule, row)
-}
+
 bilt_joule$secondes <- as.numeric((as.POSIXct(bilt_joule$YYYYMMDD, origin = "1970-01-01")))
 
 dependent_var <- bilt_joule$Q
@@ -43,11 +44,6 @@ ggplot()+
 
 
 
-utrecht$ori.ntatie[utrecht$ori.ntatie == "Zuid"] <- 0
-utrecht$ori.ntatie[utrecht$ori.ntatie == "Oost"] <- 90
-utrecht$ori.ntatie[utrecht$ori.ntatie == "West"] <- 90
-utrecht$ori.ntatie[utrecht$ori.ntatie == "Zuid-oost"] <- 45
-utrecht$ori.ntatie[utrecht$ori.ntatie == "Zuid-west"] <- 45
-utrecht$ori.ntatie <- as.integer(utrecht$ori.ntatie)
+
 
 
